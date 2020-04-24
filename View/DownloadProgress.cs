@@ -200,7 +200,7 @@ namespace TrojanShell.View
                 ChangeProgress(e.ProgressPercentage);
             };
             var fileName = Utils.GetTempPath(Guid.NewGuid().ToString("N"));
-            var downloadURL = $"https://github.wuyanzheshui.workers.dev/TkYu/TrojanShell/releases/download/{newVersion}/TrojanShell{newVersion}.zip";
+            var downloadURL = $"https://github.wuyanzheshui.workers.dev/TkYu/TrojanShell/releases/download/v{newVersion}/TrojanShell{newVersion}.zip";
             ChangeTitle(I18N.GetString("Sit back and relax") + " " + I18N.GetString("Upgrade {0} to {1} ...", Global.Version, newVersion));
             ChangeText(I18N.GetString("Downloading file from {0}, You can download it manually and extract to same folder.", downloadURL));
             try
@@ -214,7 +214,7 @@ namespace TrojanShell.View
             }
             if (!File.Exists(fileName))
             {
-                downloadURL = $"https://release.fastgit.org/TkYu/TrojanShell/releases/download/{newVersion}/TrojanShell{newVersion}.zip";
+                downloadURL = $"https://release.fastgit.org/TkYu/TrojanShell/releases/download/v{newVersion}/TrojanShell{newVersion}.zip";
                 ChangeText(I18N.GetString("Downloading file from {0}, You can download it manually and extract to same folder.", downloadURL));
                 try
                 {
@@ -227,7 +227,7 @@ namespace TrojanShell.View
             }
             if (!File.Exists(fileName))
             {
-                downloadURL = $"https://github.com/TkYu/TrojanShell/releases/download/{newVersion}/TrojanShell{newVersion}.zip";
+                downloadURL = $"https://github.com/TkYu/TrojanShell/releases/download/v{newVersion}/TrojanShell{newVersion}.zip";
                 ChangeText(I18N.GetString("Downloading file from {0}, You can download it manually and extract to same folder.", downloadURL));
                 try
                 {
