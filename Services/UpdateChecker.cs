@@ -10,9 +10,9 @@ namespace TrojanShell.Services
 {
     public class UpdateChecker
     {
-        //public const string SHELL_URL = "https://github.com/TkYu/TrojanShell/releases/latest";
-        public const string SHELL_URL = "https://github.com.cnpmjs.org/TkYu/TrojanShell/releases";
-        public const string SHELL_API = "https://api.github.com/repos/TkYu/TrojanShell/releases";
+        public const string SHELL_URL = "https://github.com/TkYu/TrojanShell/releases/latest";
+        //public const string SHELL_URL = "https://github.com.cnpmjs.org/TkYu/TrojanShell/releases";
+        //public const string SHELL_API = "https://api.github.com/repos/TkYu/TrojanShell/releases";
         public const string TROJAN_URL = "https://github.com/trojan-gfw/trojan/releases/latest";
 
         public UpdateChecker()
@@ -41,11 +41,27 @@ namespace TrojanShell.Services
 
         private async Task<string> GetVersion(string proxy = null)
         {
+            try
+            {
+                var request = (HttpWebRequest) WebRequest.Create(proxy == null ? "https://github.com.cnpmjs.org/TkYu/TrojanShell/releases/latest" : SHELL_URL);
+                if (proxy != null) request.Proxy = new WebProxy(new Uri(proxy));
+                request.Timeout = 5000;
+                request.AllowAutoRedirect = false;
+                var response = await request.GetResponseAsync();
+                return response.Headers["Location"].Split('/').Last().TrimStart('v');
+            }
+            catch (Exception e)
+            {
+                Logging.LogUsefulException(e);
+                return null;
+            }
+            #region Backup
+            /*
             if (proxy == null)
             {
                 try
                 {
-                    var regx = new Regex(@"<a href=""/TkYu/TrojanShell/releases/tag/(.*?)"">(.*?)</a>",RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                    var regx = new Regex(@"<a href=""/TkYu/TrojanShell/releases/tag/(.*?)"">(.*?)</a>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
                     var request = (HttpWebRequest)WebRequest.Create(SHELL_URL);
                     request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36";
                     request.Timeout = 6000;
@@ -93,6 +109,8 @@ namespace TrojanShell.Services
                     return null;
                 }
             }
+            */
+            #endregion
         }
 
         public async Task<Tuple<bool, bool, string, string>> CheckUpdate(Configuration config)

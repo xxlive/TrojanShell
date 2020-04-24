@@ -84,8 +84,8 @@ namespace TrojanShell
         public string ToURL()
         {
             //[offcial](https://github.com/trojan-gfw/trojan-url): trojan://password@remote_host:remote_port
-            //west: trojan://密码@节点IP:端口_allowInsecure=1&peer=节点域名#节点备注
-            return $"trojan://{password}:{server}:{server_port}#{Uri.EscapeDataString(remarks)}";
+            //west: trojan://密码@节点IP:端口?allowInsecure=1&peer=节点域名#节点备注
+            return $"trojan://{password}@{server}:{server_port}?allowInsecure=0#{Uri.EscapeDataString(remarks)}";//默认用域名，验证证书
         }
 
         public static List<Server> GetServers(string urls)

@@ -32,6 +32,7 @@ namespace TrojanShell.View
 
         private void UpdateTexts()
         {
+            Font = Global.Font;
             AddButton.Text = I18N.GetString("&Add");
             DeleteButton.Text = I18N.GetString("&Delete");
             DuplicateButton.Text = I18N.GetString("Dupli&cate");
@@ -81,7 +82,7 @@ namespace TrojanShell.View
                 CorePortNum.Value = _modifiedConfiguration.corePort;
 
                 IPTextBox.Text = server.server;
-                ServerPortNum.Value = server.server_port;
+                ServerPortText.Text = server.server_port.ToString();
                 PasswordTextBox.Text = server.password;
                 RemarksTextBox.Text = server.remarks;
             }
@@ -128,7 +129,8 @@ namespace TrojanShell.View
 
                 var old = _modifiedConfiguration.configs[_lastSelectedIndex];
                 server.server = IPTextBox.Text;
-                server.server_port = (int) ServerPortNum.Value;
+                if (int.TryParse(ServerPortText.Text, out var port) && port > 1000 && port < 65536)
+                    server.server_port = port;
                 server.password = PasswordTextBox.Text;
                 server.remarks = RemarksTextBox.Text;
 
@@ -329,6 +331,11 @@ namespace TrojanShell.View
             controller.SaveServers(_modifiedConfiguration.configs, _modifiedConfiguration.localPort,_modifiedConfiguration.corePort);
             await controller.SelectServerIndex(ServersListBox.SelectedIndex);
             Close();
+        }
+
+        private void ServerPortText_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
         }
     }
 }

@@ -10,7 +10,7 @@ using ZXing.QrCode.Internal;
 
 namespace TrojanShell.View
 {
-    public partial class QRCodeForm : Form
+    public sealed partial class QRCodeForm : Form
     {
         private string code;
 
@@ -19,14 +19,14 @@ namespace TrojanShell.View
             this.code = code;
             InitializeComponent();
             this.Icon = Resources.horse;
-            // ReSharper disable once VirtualMemberCallInConstructor
             Text = I18N.GetString("Sit back and relax");
+            Font = Global.Font;
             Enabled = false;
         }
 
-        private void GenQR(string ssconfig)
+        private void GenQR(string tjconfig)
         {
-            string qrText = ssconfig;
+            string qrText = tjconfig;
             QRCode code = ZXing.QrCode.Internal.Encoder.encode(qrText, ErrorCorrectionLevel.M);
             ByteMatrix m = code.Matrix;
             int blockSize = Math.Max(pictureBox1.Height/m.Height, 1);

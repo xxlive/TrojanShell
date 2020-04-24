@@ -10,7 +10,7 @@ namespace TrojanShell.Services
 {
     class TrojanRunner
     {
-        public static readonly string LogFile = Utils.GetTempPath("TrojanShell_Core.log");
+        public static readonly string LogFile = Utils.GetTempPath($"TrojanShell_Core_{Global.PathHash}.log");
 
         private static readonly string _uniqueConfigFile;
         private static readonly Job _trojanShellJob;

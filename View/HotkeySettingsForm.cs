@@ -64,6 +64,7 @@ namespace TrojanShell.View
 
         private void UpdateTexts()
         {
+            Font = Global.Font;
             // I18N stuff
             SwitchSystemProxyLabel.Text = I18N.GetString("Switch system proxy");
             SwitchSystemProxyModeLabel.Text = I18N.GetString("Switch system proxy mode");

@@ -23,6 +23,7 @@ public partial class LogForm : Form
 
         private void UpdateTexts()
         {
+            Font = Global.Font;
             FileMenuItem.Text = I18N.GetString("&File");
             OpenLocationMenuItem.Text = I18N.GetString("&Open Location");
             ExitMenuItem.Text = I18N.GetString("E&xit");

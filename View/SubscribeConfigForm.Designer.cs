@@ -71,7 +71,7 @@
             this.OKButton.Margin = new System.Windows.Forms.Padding(6, 6, 6, 0);
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(150, 46);
-            this.OKButton.TabIndex = 15;
+            this.OKButton.TabIndex = 6;
             this.OKButton.Text = "OK";
             this.OKButton.UseVisualStyleBackColor = true;
             this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
@@ -84,7 +84,7 @@
             this.MyCancelButton.Margin = new System.Windows.Forms.Padding(6, 6, 0, 0);
             this.MyCancelButton.Name = "MyCancelButton";
             this.MyCancelButton.Size = new System.Drawing.Size(150, 46);
-            this.MyCancelButton.TabIndex = 16;
+            this.MyCancelButton.TabIndex = 7;
             this.MyCancelButton.Text = "Cancel";
             this.MyCancelButton.UseVisualStyleBackColor = true;
             this.MyCancelButton.Click += new System.EventHandler(this.MyCancelButton_Click);
@@ -96,7 +96,7 @@
             this.DeleteButton.Margin = new System.Windows.Forms.Padding(6, 12, 0, 6);
             this.DeleteButton.Name = "DeleteButton";
             this.DeleteButton.Size = new System.Drawing.Size(160, 46);
-            this.DeleteButton.TabIndex = 11;
+            this.DeleteButton.TabIndex = 5;
             this.DeleteButton.Text = "&Delete";
             this.DeleteButton.UseVisualStyleBackColor = true;
             this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
@@ -108,7 +108,7 @@
             this.AddButton.Margin = new System.Windows.Forms.Padding(0, 12, 6, 6);
             this.AddButton.Name = "AddButton";
             this.AddButton.Size = new System.Drawing.Size(160, 46);
-            this.AddButton.TabIndex = 10;
+            this.AddButton.TabIndex = 4;
             this.AddButton.Text = "&Add";
             this.AddButton.UseVisualStyleBackColor = true;
             this.AddButton.Click += new System.EventHandler(this.AddButton_Click);
@@ -122,7 +122,7 @@
             this.SubscribeGroupBox.Margin = new System.Windows.Forms.Padding(24, 0, 0, 0);
             this.SubscribeGroupBox.Name = "SubscribeGroupBox";
             this.SubscribeGroupBox.Padding = new System.Windows.Forms.Padding(6);
-            this.SubscribeGroupBox.Size = new System.Drawing.Size(538, 220);
+            this.SubscribeGroupBox.Size = new System.Drawing.Size(533, 205);
             this.SubscribeGroupBox.TabIndex = 0;
             this.SubscribeGroupBox.TabStop = false;
             this.SubscribeGroupBox.Text = "Subscribe";
@@ -156,7 +156,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(521, 150);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(516, 139);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // NameLabel
@@ -166,7 +166,7 @@
             this.NameLabel.Location = new System.Drawing.Point(12, 15);
             this.NameLabel.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.NameLabel.Name = "NameLabel";
-            this.NameLabel.Size = new System.Drawing.Size(73, 28);
+            this.NameLabel.Size = new System.Drawing.Size(68, 25);
             this.NameLabel.TabIndex = 0;
             this.NameLabel.Text = "Name";
             // 
@@ -174,32 +174,32 @@
             // 
             this.UrlLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.UrlLabel.AutoSize = true;
-            this.UrlLabel.Location = new System.Drawing.Point(43, 62);
+            this.UrlLabel.Location = new System.Drawing.Point(41, 58);
             this.UrlLabel.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.UrlLabel.Name = "UrlLabel";
-            this.UrlLabel.Size = new System.Drawing.Size(42, 28);
+            this.UrlLabel.Size = new System.Drawing.Size(39, 25);
             this.UrlLabel.TabIndex = 1;
             this.UrlLabel.Text = "Url";
             // 
             // NameTextBox
             // 
             this.NameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.NameTextBox.Location = new System.Drawing.Point(97, 12);
+            this.NameTextBox.Location = new System.Drawing.Point(92, 12);
             this.NameTextBox.Margin = new System.Windows.Forms.Padding(6);
             this.NameTextBox.MaxLength = 20;
             this.NameTextBox.Name = "NameTextBox";
-            this.NameTextBox.Size = new System.Drawing.Size(412, 35);
+            this.NameTextBox.Size = new System.Drawing.Size(412, 31);
             this.NameTextBox.TabIndex = 0;
             this.NameTextBox.WordWrap = false;
             // 
             // UrlTextBox
             // 
             this.UrlTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.UrlTextBox.Location = new System.Drawing.Point(97, 59);
+            this.UrlTextBox.Location = new System.Drawing.Point(92, 55);
             this.UrlTextBox.Margin = new System.Windows.Forms.Padding(6);
             this.UrlTextBox.MaxLength = 2000;
             this.UrlTextBox.Name = "UrlTextBox";
-            this.UrlTextBox.Size = new System.Drawing.Size(412, 35);
+            this.UrlTextBox.Size = new System.Drawing.Size(412, 31);
             this.UrlTextBox.TabIndex = 1;
             this.UrlTextBox.WordWrap = false;
             // 
@@ -208,25 +208,28 @@
             this.UseProxyCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.UseProxyCheckBox.AutoSize = true;
-            this.UseProxyCheckBox.Location = new System.Drawing.Point(97, 106);
+            this.UseProxyCheckBox.Location = new System.Drawing.Point(92, 98);
             this.UseProxyCheckBox.Margin = new System.Windows.Forms.Padding(6);
             this.UseProxyCheckBox.Name = "UseProxyCheckBox";
-            this.UseProxyCheckBox.Size = new System.Drawing.Size(144, 32);
-            this.UseProxyCheckBox.TabIndex = 3;
+            this.UseProxyCheckBox.Size = new System.Drawing.Size(143, 29);
+            this.UseProxyCheckBox.TabIndex = 2;
             this.UseProxyCheckBox.Text = "Use Proxy";
             this.UseProxyCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.UseProxyCheckBox.UseVisualStyleBackColor = true;
             // 
             // SubscribeListBox
             // 
+            this.SubscribeListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.SubscribeListBox.FormattingEnabled = true;
             this.SubscribeListBox.IntegralHeight = false;
-            this.SubscribeListBox.ItemHeight = 28;
+            this.SubscribeListBox.ItemHeight = 25;
             this.SubscribeListBox.Location = new System.Drawing.Point(0, 0);
             this.SubscribeListBox.Margin = new System.Windows.Forms.Padding(0);
             this.SubscribeListBox.Name = "SubscribeListBox";
-            this.SubscribeListBox.Size = new System.Drawing.Size(328, 292);
-            this.SubscribeListBox.TabIndex = 9;
+            this.SubscribeListBox.Size = new System.Drawing.Size(332, 292);
+            this.SubscribeListBox.TabIndex = 3;
             this.SubscribeListBox.SelectedIndexChanged += new System.EventHandler(this.SubscribeListBox_SelectedIndexChanged);
             // 
             // tableLayoutPanel2
@@ -248,7 +251,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(894, 420);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(889, 420);
             this.tableLayoutPanel2.TabIndex = 7;
             // 
             // tableLayoutPanel6
@@ -278,7 +281,7 @@
             this.tableLayoutPanel3.Controls.Add(this.MyCancelButton, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.OKButton, 0, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(576, 362);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(571, 362);
             this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(6, 6, 0, 6);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
@@ -316,7 +319,6 @@
             this.ClientSize = new System.Drawing.Size(1148, 796);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.panel2);
-            this.Font = new System.Drawing.Font("Microsoft Yahei", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(6);
             this.MaximizeBox = false;

@@ -30,10 +30,14 @@ public partial class SubscribeConfigForm : Form
             _controller = controller;
             _controller.ConfigChanged += controller_ConfigChanged;
             LoadCurrentConfiguration();
+
+            if(SubscribeListBox.Items.Count == 0)
+                AddButton.PerformClick();
         }
 
         private void UpdateTexts()
         {
+            Font = Global.Font;
             AddButton.Text = I18N.GetString("&Add");
             DeleteButton.Text = I18N.GetString("&Delete");
             SubscribeGroupBox.Text = I18N.GetString("Subscribe");
@@ -71,6 +75,7 @@ public partial class SubscribeConfigForm : Form
             }
         }
 
+        Dictionary<int,string> oldNames = new Dictionary<int, string>();
         private bool SaveOld()
         {
             try
@@ -79,7 +84,12 @@ public partial class SubscribeConfigForm : Form
                 {
                     return true;
                 }
+
                 var item = new SubscribeConfig{name = NameTextBox.Text,url = UrlTextBox.Text,useProxy = UseProxyCheckBox.Checked};
+                if (!oldNames.ContainsKey(_lastSelectedIndex))
+                    oldNames.Add(_lastSelectedIndex, _modifiedConfiguration.subscribes[_lastSelectedIndex].name);
+                else
+                    oldNames[_lastSelectedIndex] = _modifiedConfiguration.subscribes[_lastSelectedIndex].name;
                 _modifiedConfiguration.subscribes[_lastSelectedIndex] = item;
 
                 return true;
@@ -136,7 +146,7 @@ public partial class SubscribeConfigForm : Form
                     }
                     if (lst.Any())
                     {
-                        _modifiedConfiguration.configs.RemoveAll(c => c.@group == item.name);
+                        _modifiedConfiguration.configs.RemoveAll(c => c.@group == oldNames[_lastSelectedIndex]);
                         _modifiedConfiguration.configs.AddRange(lst);
                     }
                     _controller.SaveServers(_modifiedConfiguration.configs, _modifiedConfiguration.localPort,_modifiedConfiguration.corePort);
@@ -151,7 +161,7 @@ public partial class SubscribeConfigForm : Form
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-            var item = new SubscribeConfig{name = "New"};
+            var item = new SubscribeConfig{name = "New Subscription"};
             _modifiedConfiguration.subscribes.Add(item);
             LoadConfiguration(_modifiedConfiguration);
             SubscribeListBox.SelectedIndex = _modifiedConfiguration.subscribes.Count - 1;

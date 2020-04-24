@@ -19,7 +19,7 @@ namespace TrojanShell
         {
             try
             {
-                LogFilePath = Utils.GetTempPath("TrojanShell.log");
+                LogFilePath = Utils.GetTempPath($"TrojanShell_{Global.PathHash}.log");
 
                 _fs = new FileStream(LogFilePath, FileMode.Append);
                 _sw = new StreamWriterWithTimestamp(_fs) {AutoFlush = true};

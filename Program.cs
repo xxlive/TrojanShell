@@ -13,7 +13,7 @@ namespace TrojanShell
 {
     static class Program
     {
-                /// <summary>
+        /// <summary>
         /// アプリケーションのメイン エントリ ポイントです。
         /// </summary>
         [STAThread]
@@ -62,7 +62,7 @@ namespace TrojanShell
                 else
                 {
                     //need do sth
-                    var download = new DownloadProgress();
+                    var download = new DownloadProgress(2);
                     var result = download.ShowDialog();
                     if (result == DialogResult.Abort || result == DialogResult.Cancel)
                     {
@@ -72,13 +72,16 @@ namespace TrojanShell
                     Logging.Info("TrojanCore version : " + Trojan.Version);
                 }
 
-                var controller = new TrojanShellController();
-                var viewController = new MenuViewController(controller);
-                Hotkeys.HotKeys.Init(controller, viewController);
-                controller.StartAsync();
+                ControllerInstance = new TrojanShellController();
+                ViewControllerInstance = new MenuViewController(ControllerInstance);
+                Hotkeys.HotKeys.Init(ControllerInstance, ViewControllerInstance);
+                ControllerInstance.StartAsync();
                 Application.Run();
             }
         }
+
+        public static TrojanShellController ControllerInstance;
+        public static MenuViewController ViewControllerInstance;
 
         #region HandleExceptions
 
