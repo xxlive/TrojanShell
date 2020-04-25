@@ -201,6 +201,8 @@ public partial class SubscribeConfigForm : Form
             _lastSelectedIndex = SubscribeListBox.SelectedIndex;
             if (_lastSelectedIndex >= 0 && _lastSelectedIndex < _modifiedConfiguration.subscribes.Count)
             {
+                var current = _modifiedConfiguration.subscribes[_lastSelectedIndex];
+                _modifiedConfiguration.configs.RemoveAll(c => c.@group == current.name);
                 _modifiedConfiguration.subscribes.RemoveAt(_lastSelectedIndex);
             }
             if (_lastSelectedIndex >= _modifiedConfiguration.subscribes.Count)
