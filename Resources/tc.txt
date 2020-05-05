@@ -1,0 +1,138 @@
+# translation for Traditional Chinese
+
+TrojanShell=木馬殼
+
+# Menu items
+Enable System Proxy=啟用系統代理
+Mode=系統代理模式
+PAC=PAC模式
+Global=全域性模式
+Servers=伺服器
+Edit Servers...=編輯伺服器...
+Share Server Config...=分享伺服器配置...
+Scan QRCode from Screen...=掃描螢幕上的二維碼...
+Import URL from Clipboard...=從剪貼板導入URL...
+Local PAC=使用本地 PAC
+Online PAC=使用在線 PAC
+Edit Local PAC File...=編輯本地 PAC 檔案...
+Update Local PAC from GFWList=從 GFWList 更新本地 PAC
+Edit User Rule for GFWList...=編輯 GFWList 的用戶規則...
+Copy Local PAC URL=複製本地 PAC 網址
+Start on Boot=開機啓動
+Allow Clients from LAN=局域網共享
+Subscriptions...=檢視訂閱...
+Update Subscriptions=更新訂閱
+Edit Hotkeys...=編輯捷徑鍵...
+Help=幫助
+Show Logs...=顯示日誌...
+Show Core Logs...=顯示木馬日誌...
+Verbose Logging=詳細記錄日誌
+New server=新建伺服器
+Updates...=更新...
+Check for Updates...=檢查更新
+Check for Updates at Startup=啓動時檢查更新
+System Proxy On: =當前運行在：
+About...=關於...
+Running: Port {0}=運行於 {0} 埠
+Quit=退出
+
+Edit Servers=編輯伺服器
+Busy...=稍等...
+
+# QR Form
+
+QRCode and URL=二維碼與 URL
+
+# HotkeySettings Form
+
+Add current Chrome domain to PAC=新增當前ChromeTab的域名到PAC
+Add current Chrome url to PAC=新增當前ChromeTab的地址到PAC
+Scan QRCode=讀取螢幕二維碼
+Switch system proxy=切換系統代理狀態
+Switch system proxy mode=切換系統代理模式
+Switch share over LAN=切換局域網共享
+Show Logs=顯示日誌
+Switch to prev server=切換上個伺服器
+Switch to next server=切換下個伺服器
+Reg All=註冊全部熱標識方式
+
+# Log Form
+
+&File=檔案(&F)
+&Open Location=在資源管理器中打開(&O)
+E&xit=退出(&X)
+&Clean logs=清空日誌(&C)
+Change &Font=設置字體(&F)
+&Wrap text=自動換行(&W)
+&Top most=置頂(&T)
+Log Viewer=日誌檢視器
+
+# Subscribe Form
+
+Subscriptions...=管理訂閱...
+Subscribe=訂閱
+Edit Subscriptions=編輯訂閱
+UseProxy=使用代理
+Url=連結
+SubscribeListBox=新的訂閱
+Subscribe Name=訂閱名稱
+
+# Config Form
+
+&Add=新增(&A)
+&Delete=刪除(&D)
+Dupli&cate=複製(&C)
+Cli&pboard=剪貼板(&P)
+Server=伺服器
+Proxy Port=代理埠
+Remarks=備註
+Password=密碼
+Show Password=顯示密碼
+OK=確定
+Cancel=取消
+Move &Up=上移(&U)
+Move D&own=下移(&O)
+Server Address=服務地址
+Server Port=服務埠
+Core Port=Trojan Socks 埠
+
+Please add at least one server=請新增至少一個伺服器
+
+# Messages
+
+TrojanShell is here=木馬殼 在這裏
+You can turn on/off TrojanShell in the context menu=可以在右標識方式菜單中開啓或關閉 木馬殼
+No QRCode found. Try to zoom in or move it to the center of the screen.=未發現二維碼，嘗試把它放大或移動到靠近螢幕中間的位置
+Current QR content is=當前讀取到QR碼的內容爲
+should i open it?=是否打開？
+should i copy that to clipboard?=是否複製到剪貼板？
+TrojanShell is already running.=木馬殼 已經在運行。
+Find TrojanShell icon in your notify tray.=請在任務欄裏尋找 木馬殼 圖標。
+If you want to start multiple TrojanShell, make a copy in another directory.=如果想同時啓動多個木馬殼，可以另外複製一份到別的目錄。
+Failed to update PAC file =更新 PAC 檔案失敗
+PAC updated=更新 PAC 成功
+No updates found. Please report to GFWList if you have problems with it.=未發現更新。如有問題請提交給 GFWList。
+Unexpected error, TrojanShell will exit. Please report to=未知錯誤，木馬殼將退出，前往討論區討論：
+trojan.exe -v parse fail!=trojan.exe -v 獲取失敗
+TrojanShell Error:=木馬殼出錯：
+Sit back and relax=坐和放寬
+Get latest version...=正在獲取最新版本的資訊...
+Upgrade {0} to {1} ...=從 {0} 升級到 {1} ...
+Downloading file from {0}, You can download it manually and extract to same folder.=正在從 {0} 下載，你也可以使用其他渠道手動下載後解壓到本程式相同路徑。
+We need a proxy to download trojan core=訪問GitHub失敗，請提供一個代理以供訪問
+download fail!=下載失敗！
+Downloading...=正在下載...
+Extracting...=正在解壓...
+Port out of range=埠超出範圍
+Port can't be 8123=埠不能爲 8123
+Server can not be blank=伺服器地址不能爲空
+assertion failure=斷言失敗
+user rule has been added=用戶規則已新增
+user rule has been removed=用戶規則已移除
+TrojanShell Update Found :=木馬殼有新版本：
+TrojanCore Update Found :=木馬有新版本：
+TrojanShell and TrojanCore Update Found :=木馬殼與核心都有新版本：
+Click here to update=點我開始更新
+No update is available=沒有找到更新
+Update finished=更新完成
+{0} before, {1} after.=更新前{0}條，更新後{1}條。

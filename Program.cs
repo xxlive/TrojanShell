@@ -29,6 +29,7 @@ namespace TrojanShell
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
+
                 var processesName = Process.GetCurrentProcess().MainModule?.ModuleName ?? "TrojanShell.exe";
                 var processesNameWithoutExtension = Path.GetFileNameWithoutExtension(processesName);
                 if (!mutex.WaitOne(0, false))
@@ -76,7 +77,7 @@ namespace TrojanShell
                 ViewControllerInstance = new MenuViewController(ControllerInstance);
                 Hotkeys.HotKeys.Init(ControllerInstance, ViewControllerInstance);
                 ControllerInstance.StartAsync();
-                Application.Run();
+                Application.Run(ViewControllerInstance);
             }
         }
 

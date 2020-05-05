@@ -14,7 +14,8 @@ namespace TrojanShell
         public static readonly int PathHash;
 
         public static readonly System.Drawing.Font Font;
-        public static readonly string CurrentCulture;
+
+        public static readonly int DPI;
 
         static Global()
         {
@@ -25,14 +26,18 @@ namespace TrojanShell
             ProcessName = Path.GetFileNameWithoutExtension(ProcessPath);
             ConfigPath = Utils.GetTempPath($"TrojanShell_{Application.StartupPath.GetHashCode()}.json");
 
-            #if DEBUG
-            CurrentCulture = "zh-cn";
-            #else
-            CurrentCulture = System.Globalization.CultureInfo.CurrentCulture.IetfLanguageTag.ToLowerInvariant();
-            #endif
+            using (var graphics = System.Drawing.Graphics.FromHwnd(IntPtr.Zero))
+            {
+                DPI = (int) graphics.DpiX;
+            }
 
-            if (CurrentCulture.StartsWith("zh"))
-                Font = new System.Drawing.Font("Microsoft Yahei UI", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+
+            if (I18N.SC)
+                Font = new System.Drawing.Font("Microsoft Yahei UI", 8.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            else if (I18N.TC)
+                Font = new System.Drawing.Font("MingLiU", 8.3F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            else if (I18N.JP)
+                Font = new System.Drawing.Font("Meiryo UI", 8.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             else
                 Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
         }

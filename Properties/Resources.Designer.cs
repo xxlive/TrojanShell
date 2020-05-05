@@ -177,6 +177,35 @@ namespace TrojanShell.Properties {
         }
         
         /// <summary>
+        ///   # translation for Simplified Chinese
+        ///
+        ///TrojanShell=木马壳
+        ///
+        ///# Menu items
+        ///Enable System Proxy=启用系统代理
+        ///Mode=系统代理模式
+        ///PAC=PAC模式
+        ///Global=全局模式
+        ///Servers=服务器
+        ///Edit Servers...=编辑服务器...
+        ///Share Server Config...=分享服务器配置...
+        ///Scan QRCode from Screen...=扫描屏幕上的二维码...
+        ///Import URL from Clipboard...=从剪贴板导入URL...
+        ///Local PAC=使用本地 PAC
+        ///Online PAC=使用在线 PAC
+        ///Edit Local PAC File...=编辑本地 PAC 文件...
+        ///Update Local PAC from GFWList=从 GFWList 更新本地 PAC
+        ///Edit User Rule for GFWList...=编辑 GFWList 的用户规则...
+        ///Copy Local PAC URL=复制本地 PAC 网址
+        ///Sta [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string tc {
+            get {
+                return ResourceManager.GetString("tc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   ! Put user rules line by line in this file.
         ///! See https://adblockplus.org/en/filter-cheatsheet
         /// に類似しているローカライズされた文字列を検索します。

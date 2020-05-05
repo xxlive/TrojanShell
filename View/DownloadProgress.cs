@@ -3,6 +3,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TrojanShell.Properties;
@@ -15,6 +16,12 @@ namespace TrojanShell.View
         private class MyWebClient : WebClient
         {
             public int Timeout { get; set; }
+
+            public MyWebClient(int timeout = 5000)
+            {
+                Timeout = timeout;
+                Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.92 Safari/537.36");
+            }
 
             protected override WebRequest GetWebRequest(Uri uri)
             {
@@ -192,9 +199,11 @@ namespace TrojanShell.View
                 return false;
             }
             ChangeText(I18N.GetString("Upgrade {0} to {1} ...",Global.Version,newVersion));
-            var webClient = new MyWebClient { Timeout = 20000 };
-            if(!string.IsNullOrEmpty(proxy) && Uri.IsWellFormedUriString(proxy,UriKind.Absolute))
+            var webClient = new MyWebClient(15000);
+            if (!string.IsNullOrEmpty(proxy) && Uri.IsWellFormedUriString(proxy,UriKind.Absolute))
                 webClient.Proxy = new WebProxy(new Uri(proxy));
+            var cts = new CancellationTokenSource();
+            cts.Token.Register(() => webClient.CancelAsync());
             webClient.DownloadProgressChanged += (s, e) =>
             {
                 ChangeProgress(e.ProgressPercentage);
@@ -205,7 +214,7 @@ namespace TrojanShell.View
             ChangeText(I18N.GetString("Downloading file from {0}, You can download it manually and extract to same folder.", downloadURL));
             try
             {
-                webClient.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.92 Safari/537.36");
+                cts.CancelAfter(webClient.Timeout);
                 await webClient.DownloadFileTaskAsync(downloadURL, fileName);
             }
             catch
@@ -218,6 +227,7 @@ namespace TrojanShell.View
                 ChangeText(I18N.GetString("Downloading file from {0}, You can download it manually and extract to same folder.", downloadURL));
                 try
                 {
+                    cts.CancelAfter(webClient.Timeout);
                     await webClient.DownloadFileTaskAsync(downloadURL, fileName);
                 }
                 catch
@@ -303,9 +313,11 @@ namespace TrojanShell.View
             }
 
             ChangeText(I18N.GetString("Upgrade {0} to {1} ...",Trojan.Version?.ToString()??"0.0.0",newVersion));
-            var webClient = new MyWebClient { Timeout = 20000 };
+            var webClient = new MyWebClient(20000);
             if(!string.IsNullOrEmpty(proxy) && Uri.IsWellFormedUriString(proxy,UriKind.Absolute))
                 webClient.Proxy = new WebProxy(new Uri(proxy));
+            var cts = new CancellationTokenSource();
+            cts.Token.Register(() => webClient.CancelAsync());
             webClient.DownloadProgressChanged += (s, e) =>
             {
                 ChangeProgress(e.ProgressPercentage);
@@ -317,7 +329,7 @@ namespace TrojanShell.View
             ChangeText(I18N.GetString("Downloading file from {0}, You can download it manually and extract to same folder.", downloadURL));
             try
             {
-                webClient.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.92 Safari/537.36");
+                cts.CancelAfter(webClient.Timeout);
                 await webClient.DownloadFileTaskAsync(downloadURL, fileName);
             }
             catch
@@ -330,6 +342,7 @@ namespace TrojanShell.View
                 ChangeText(I18N.GetString("Downloading file from {0}, You can download it manually and extract to same folder.", downloadURL));
                 try
                 {
+                    cts.CancelAfter(webClient.Timeout);
                     await webClient.DownloadFileTaskAsync(downloadURL, fileName);
                 }
                 catch

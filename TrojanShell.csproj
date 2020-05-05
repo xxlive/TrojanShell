@@ -224,6 +224,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="horse.ico" />
+    <None Include="Resources\tc.txt" />
     <None Include="Resources\user-rule.txt" />
     <None Include="Resources\T48.png" />
     <None Include="Resources\T24.png" />

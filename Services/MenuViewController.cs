@@ -8,14 +8,13 @@ using TrojanShell.View;
 
 namespace TrojanShell.Services
 {
-    public class MenuViewController
+    public class MenuViewController : ApplicationContext
     {
         private bool _isFirstRun;
 
         private readonly TrojanShellController controller;
         private readonly NotifyIcon _notifyIcon;
         private ContextMenu contextMenu1;
-
         public MenuItem enableItem;
         private MenuItem modeItem;
         private MenuItem AutoStartupItem;
@@ -25,13 +24,12 @@ namespace TrojanShell.Services
         private MenuItem ServersItem;
         public MenuItem globalModeItem;
         public MenuItem PACModeItem;
-        private MenuItem localPACItem;
+        //private MenuItem localPACItem;
         private MenuItem editLocalPACItem;
         private MenuItem updateFromGFWListItem;
         private MenuItem editGFWUserRuleItem;
         private MenuItem autoCheckUpdatesToggleItem;
-        private MenuItem hotKeyItem;
-        private MenuItem VerboseLoggingToggleItem;
+        private MenuItem verboseLoggingToggleItem;
         private MenuItem subscribeUpdateItem;
         public MenuItem ScanQR;
         public MenuItem ShowLog;
@@ -45,7 +43,7 @@ namespace TrojanShell.Services
         private SubscribeConfigForm subscribeConfigForm;
 
         private string _urlToOpen;
-        private UpdateChecker updateChecker;
+        private readonly UpdateChecker updateChecker;
 
         private Bitmap iconBase;
         private Icon trayIcon;
@@ -99,18 +97,13 @@ namespace TrojanShell.Services
 
         private void UpdateTrayIcon()
         {
-            int dpi;
-            using (var graphics = Graphics.FromHwnd(IntPtr.Zero))
-            {
-                dpi = (int)graphics.DpiX;
-            }
             iconBase = null;
-            if (dpi < 96)
+            if (Global.DPI < 96)
             {
                 //72
                 iconBase = Resources.T18;
             }
-            else if (dpi < 192)
+            else if (Global.DPI < 192)
             {
                 //96
                 iconBase = Resources.T24;
@@ -131,7 +124,7 @@ namespace TrojanShell.Services
             var text = I18N.GetString("TrojanShell") + " " + Global.Version + "\n" +
                        (enabled ?
                            I18N.GetString("System Proxy On: ") + (global ? I18N.GetString("Global") : I18N.GetString("PAC")) :
-                           String.Format(I18N.GetString("Running: Port {0}"), $"{config.corePort}/{config.localPort}"))
+                           string.Format(I18N.GetString("Running: Port {0}"), $"{config.corePort}/{config.localPort}"))
                        + "\n" + serverInfo;
             _notifyIcon.SetNotifyIconText(text);
         }
@@ -236,7 +229,7 @@ namespace TrojanShell.Services
                     ImportFromClipboard = CreateMenuItem("Import URL from Clipboard...", ImportURLItem_Click)
                 }),
                 CreateMenuGroup("PAC ", new MenuItem[] {
-                    localPACItem = CreateMenuItem("Local PAC", LocalPACItem_Click),
+                    //localPACItem = CreateMenuItem("Local PAC", LocalPACItem_Click),
                     editLocalPACItem = CreateMenuItem("Edit Local PAC File...", EditPACFileItem_Click),
                     updateFromGFWListItem = CreateMenuItem("Update Local PAC from GFWList", UpdatePACFromGFWListItem_Click),
                     editGFWUserRuleItem = CreateMenuItem("Edit User Rule for GFWList...", EditUserRuleFileForGFWListItem_Click),
@@ -249,10 +242,10 @@ namespace TrojanShell.Services
                 CreateMenuItem("Subscriptions...", subscribeItem_Click),
                 subscribeUpdateItem = CreateMenuItem("Update Subscriptions", subscribeUpdateItem_Click),
                 new MenuItem("-"),
-                hotKeyItem = CreateMenuItem("Edit Hotkeys...", new EventHandler(hotKeyItem_Click)),
-                CreateMenuGroup("Help", new MenuItem[] {
+                CreateMenuItem("Edit Hotkeys...", hotKeyItem_Click),
+                CreateMenuGroup("Help", new[] {
                     ShowLog = CreateMenuItem("Show Logs...", ShowLogItem_Click),
-                    VerboseLoggingToggleItem = CreateMenuItem( "Verbose Logging", VerboseLoggingToggleItem_Click ),
+                    verboseLoggingToggleItem = CreateMenuItem( "Verbose Logging", VerboseLoggingToggleItem_Click ),
                     new MenuItem("-"),
                     ShowCoreLog = CreateMenuItem("Show Core Logs...", ShowCoreLogItem_Click),
                     new MenuItem("-"),
@@ -266,9 +259,8 @@ namespace TrojanShell.Services
                 new MenuItem("-"),
                 CreateMenuItem("Quit", Quit_Click)
             });
-            localPACItem.Visible = false;
+            //localPACItem.Visible = false;
         }
-
         #endregion
 
         #region ControllerEvents
@@ -320,7 +312,7 @@ namespace TrojanShell.Services
         }
 
         void controller_VerboseLoggingStatusChanged(object sender, EventArgs e) {
-            VerboseLoggingToggleItem.Checked = controller.GetConfigurationCopy().isVerboseLogging;
+            verboseLoggingToggleItem.Checked = controller.GetConfigurationCopy().isVerboseLogging;
         }
 
         #endregion
@@ -444,13 +436,19 @@ namespace TrojanShell.Services
             if (config.subscribes == null || !config.subscribes.Any()) return;
             subscribeUpdateItem.Enabled = false;
             var before = config.configs.Count(c => !string.IsNullOrEmpty(c.@group));
+            var currentSvc = controller.GetCurrentServer();
             foreach (var item in config.subscribes)
             {
                 var wc = new System.Net.WebClient();
                 if (item.useProxy) wc.Proxy = new System.Net.WebProxy(System.Net.IPAddress.Loopback.ToString(), config.localPort);
+                var cts = new System.Threading.CancellationTokenSource();
+                // ReSharper disable once AccessToDisposedClosure
+                // ReSharper disable once ConvertToLambdaExpressionWhenPossible
+                cts.Token.Register(() => { wc?.CancelAsync();});
+                cts.CancelAfter(5000);
                 var downloadString = await wc.DownloadStringTaskAsync(item.url);
                 wc.Dispose();
-                var debase64 = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(downloadString));
+                var debase64 = downloadString.IndexOf("trojan://", StringComparison.OrdinalIgnoreCase) > -1 ? downloadString : downloadString.DeBase64();
                 var split = debase64.Split('\r', '\n');
                 var lst = new System.Collections.Generic.List<Server>();
                 foreach (var s in split)
@@ -469,6 +467,11 @@ namespace TrojanShell.Services
                 }
             }
             controller.SaveServers(config.configs, config.localPort,config.corePort);
+            var newIdx = config.configs.IndexOf(currentSvc);
+            if (newIdx == -1)
+                await controller.SelectServerIndex(0);
+            else if (newIdx != config.index)
+                await controller.SelectServerIndex(newIdx);
             var after = config.configs.Count(c => !string.IsNullOrEmpty(c.@group));
             ShowBalloonTip(I18N.GetString("Update finished"), I18N.GetString("{0} before, {1} after.", before, after));
             subscribeUpdateItem.Enabled = true;
@@ -506,9 +509,9 @@ namespace TrojanShell.Services
         }
 
         private async void VerboseLoggingToggleItem_Click( object sender, EventArgs e ) {
-            VerboseLoggingToggleItem.Checked = ! VerboseLoggingToggleItem.Checked;
+            verboseLoggingToggleItem.Checked = ! verboseLoggingToggleItem.Checked;
             // ReSharper disable once AsyncConverter.AsyncAwaitMayBeElidedHighlighting
-            await controller.ToggleVerboseLogging( VerboseLoggingToggleItem.Checked );
+            await controller.ToggleVerboseLogging(verboseLoggingToggleItem.Checked);
         }
 
         private void Config_Click(object sender, EventArgs e)
@@ -531,14 +534,14 @@ namespace TrojanShell.Services
             }
         }
 
-        private void LocalPACItem_Click(object sender, EventArgs e)
-        {
-            // if (!localPACItem.Checked)
-            // {
-            //     localPACItem.Checked = true;
-            //     UpdatePACItemsEnabledStatus();
-            // }
-        }
+        //private void LocalPACItem_Click(object sender, EventArgs e)
+        //{
+        //    // if (!localPACItem.Checked)
+        //    // {
+        //    //     localPACItem.Checked = true;
+        //    //     UpdatePACItemsEnabledStatus();
+        //    // }
+        //}
 
         void splash_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -682,21 +685,21 @@ namespace TrojanShell.Services
             MessageBox.Show(I18N.GetString("No QRCode found. Try to zoom in or move it to the center of the screen."));
         }
 
-        private void UpdatePACItemsEnabledStatus()
-        {
-            if (localPACItem.Checked)
-            {
-                editLocalPACItem.Enabled = true;
-                updateFromGFWListItem.Enabled = true;
-                editGFWUserRuleItem.Enabled = true;
-            }
-            else
-            {
-                editLocalPACItem.Enabled = false;
-                updateFromGFWListItem.Enabled = false;
-                editGFWUserRuleItem.Enabled = false;
-            }
-        }
+        //private void UpdatePACItemsEnabledStatus()
+        //{
+        //    if (localPACItem.Checked)
+        //    {
+        //        editLocalPACItem.Enabled = true;
+        //        updateFromGFWListItem.Enabled = true;
+        //        editGFWUserRuleItem.Enabled = true;
+        //    }
+        //    else
+        //    {
+        //        editLocalPACItem.Enabled = false;
+        //        updateFromGFWListItem.Enabled = false;
+        //        editGFWUserRuleItem.Enabled = false;
+        //    }
+        //}
 
         private void LoadCurrentConfiguration()
         {
@@ -707,10 +710,10 @@ namespace TrojanShell.Services
             globalModeItem.Checked = config.global;
             PACModeItem.Checked = !config.global;
             ShareOverLANItem.Checked = config.shareOverLan;
-            VerboseLoggingToggleItem.Checked = config.isVerboseLogging;
+            verboseLoggingToggleItem.Checked = config.isVerboseLogging;
             AutoStartupItem.Checked = AutoStartup.Check();
-            localPACItem.Checked = true;
-            UpdatePACItemsEnabledStatus();
+            //localPACItem.Checked = true;
+            //UpdatePACItemsEnabledStatus();
             UpdateUpdateMenu();
         }
 
