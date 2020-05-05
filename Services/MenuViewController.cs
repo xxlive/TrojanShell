@@ -481,6 +481,7 @@ namespace TrojanShell.Services
             else if (newIdx != config.index)
                 await controller.SelectServerIndex(newIdx);
             var after = config.configs.Count(c => !string.IsNullOrEmpty(c.@group));
+            if (before != after) RebuildMenu();
             ShowBalloonTip(I18N.GetString("Update finished"), I18N.GetString("{0} before, {1} after.", before, after));
             subscribeUpdateItem.Enabled = true;
         }
