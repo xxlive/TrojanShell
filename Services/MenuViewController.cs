@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -446,24 +447,31 @@ namespace TrojanShell.Services
                 // ReSharper disable once ConvertToLambdaExpressionWhenPossible
                 cts.Token.Register(() => { wc?.CancelAsync();});
                 cts.CancelAfter(5000);
-                var downloadString = await wc.DownloadStringTaskAsync(item.url);
-                wc.Dispose();
-                var debase64 = downloadString.IndexOf("trojan://", StringComparison.OrdinalIgnoreCase) > -1 ? downloadString : downloadString.DeBase64();
-                var split = debase64.Split('\r', '\n');
-                var lst = new System.Collections.Generic.List<Server>();
-                foreach (var s in split)
+                try
                 {
-                    if (!s.StartsWith("trojan://", StringComparison.OrdinalIgnoreCase)) continue;
-                    if (Server.TryParse(s, out Server svc))
+                    var downloadString = await wc.DownloadStringTaskAsync(item.url);
+                    wc.Dispose();
+                    var debase64 = downloadString.IndexOf("trojan://", StringComparison.OrdinalIgnoreCase) > -1 ? downloadString : downloadString.DeBase64();
+                    var split = debase64.Split('\r', '\n');
+                    var lst = new List<Server>();
+                    foreach (var s in split)
                     {
-                        svc.@group = item.name;
-                        lst.Add(svc);
+                        if (!s.StartsWith("trojan://", StringComparison.OrdinalIgnoreCase)) continue;
+                        if (Server.TryParse(s, out Server svc))
+                        {
+                            svc.@group = item.name;
+                            lst.Add(svc);
+                        }
+                    }
+                    if (lst.Any())
+                    {
+                        config.configs.RemoveAll(c => c.@group == item.name);
+                        config.configs.AddRange(lst);
                     }
                 }
-                if (lst.Any())
+                catch
                 {
-                    config.configs.RemoveAll(c => c.@group == item.name);
-                    config.configs.AddRange(lst);
+                    //TODO
                 }
             }
             controller.SaveServers(config.configs, config.localPort,config.corePort);
