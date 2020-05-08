@@ -129,8 +129,16 @@ namespace TrojanShell.View
 
                 var old = _modifiedConfiguration.configs[_lastSelectedIndex];
                 server.server = IPTextBox.Text;
-                if (int.TryParse(ServerPortText.Text, out var port) && port > 1000 && port < 65536)
+                if (int.TryParse(ServerPortText.Text, out var port) && port > 0 && port < 65536)
+                {
                     server.server_port = port;
+                }
+                else
+                {
+                    MessageBox.Show(I18N.GetString("Port out of range"));
+                    ServerPortText.Focus();
+                    return false;
+                }
                 server.password = PasswordTextBox.Text;
                 server.remarks = RemarksTextBox.Text;
 
